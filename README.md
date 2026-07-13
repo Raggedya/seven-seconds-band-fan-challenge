@@ -1,6 +1,6 @@
 # Seven Seconds Band Fan Challenge
 
-A mobile-first, reusable promotional quiz for bands and musicians. This launch edition asks **10 multiple-choice questions about Immigrant Union**, gives the player **seven seconds per question**, moves automatically through the challenge, then presents a score, fan classification and music-discovery links.
+A mobile-first, reusable promotional quiz for bands and musicians. This launch edition draws each 10-question game from a **50-question Immigrant Union bank**, gives the player **seven seconds per question**, moves automatically through the challenge, then presents a score, fan classification and music-discovery links.
 
 ## Play locally
 
@@ -17,8 +17,8 @@ No installation or build step is required.
 1. The opening screen explains the 10-question challenge.
 2. Selecting **Start the Challenge** unlocks mobile audio and immediately opens Question 1.
 3. Each question displays four answers and an accurate timestamp-based seven-second timer.
-4. The first answer tap locks all options, plays the existing ding, and displays brief feedback.
-5. After one second the next question appears and its countdown starts immediately.
+4. The first answer tap locks all options. A correct answer plays the existing ding; incorrect answers and timeouts remain silent.
+5. The answer and explanation remain visible for four seconds, then the next question appears and its countdown starts immediately.
 6. A timeout is recorded as unanswered and incorrect.
 7. After Question 10, the player sees their score, classification, statistics, discovery links, replay and sharing controls.
 
@@ -59,12 +59,13 @@ Questions live in `data/questions.json`. Each active item needs:
 - category, short explanation and source note
 - `active: true`
 
-The launch validator expects exactly 10 active questions with four easy, four medium and two hard questions. A future edition may contain a larger bank; the engine already selects and shuffles the configured number for each run. Answer order is shuffled on every replay.
+The launch validator expects exactly 50 active questions: 20 easy, 20 medium and 10 hard. Every game draws four easy, four medium and two hard questions. Selecting **Take the Quiz Again** produces a fresh set, with no repeats until all 50 questions have appeared across five games. The bank then reshuffles for a new cycle. Answer order is also shuffled on every game.
 
 ## Branding and artwork
 
 - `assets/seven-seconds-aggits-master.png` is the approved master Seven Seconds/Aggits artwork copied unchanged from the existing project. **Do not redraw, regenerate or replace Aggits or the Seven Seconds logo.**
 - The interface repositions regions of that exact master image responsively; it does not create a new character.
+- The opening screen shows the band name once in a prominent edition lock-up beside a single Aggits character; the full master masthead remains on quiz and result screens.
 - `assets/immigrant-union-original-background.png` is new, original psychedelic-country artwork created for this repository. It is album-inspired but does not copy copyrighted Immigrant Union cover art.
 - Immigrant Union’s published Bandcamp album artwork is marked all rights reserved, so no album cover was copied into this repository.
 
@@ -99,4 +100,3 @@ All asset and data paths are relative so they work from a GitHub Pages repositor
 ## Accessibility and resilience
 
 The interface uses semantic buttons and headings, visible focus states, screen-reader announcements, text indicators in addition to colour, reduced-motion support and touch targets near or above 44 pixels. Missing optional links are hidden. Missing content displays a plain-language error rather than breaking the page.
-
