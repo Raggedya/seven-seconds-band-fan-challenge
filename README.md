@@ -1,6 +1,6 @@
-# Seven Seconds Band Fan Challenge
+# Immigrant Union Fan Challenge
 
-A mobile-first, reusable promotional quiz for bands and musicians. This launch edition draws each 10-question game from a **50-question Immigrant Union bank**, gives the player **seven seconds per question**, moves automatically through the challenge, then presents a score, fan classification and music-discovery links.
+A mobile-first, premium promotional quiz for bands and musicians. This launch edition draws each 10-question game from a **50-question Immigrant Union bank**, uses a fast timed format, moves automatically through the challenge, then presents a score, fan classification and music-discovery links.
 
 ## Play locally
 
@@ -63,15 +63,15 @@ The launch validator expects exactly 50 active questions: 20 easy, 20 medium and
 
 ## Branding and artwork
 
-- `assets/seven-seconds-aggits-master.png` is the approved master Seven Seconds/Aggits artwork copied unchanged from the existing project. **Do not redraw, regenerate or replace Aggits or the Seven Seconds logo.**
+- `assets/seven-seconds-aggits-master.png` is the approved original Aggits artwork. **Do not redraw, regenerate or replace Aggits.**
 - The interface repositions regions of that exact master image responsively; it does not create a new character.
-- The opening screen shows the band name once in a prominent edition lock-up beside a single Aggits character; the full master masthead remains on quiz and result screens.
+- The opening screen shows the band name once beside a single, intact Aggits character. Quiz and result screens use the compact text-only band lock-up.
 - `assets/immigrant-union-original-background.png` is new, original psychedelic-country artwork created for this repository. It is album-inspired but does not copy copyrighted Immigrant Union cover art.
 - Immigrant Union’s published Bandcamp album artwork is marked all rights reserved, so no album cover was copied into this repository.
 
 ## Sound
 
-`assets/ding.mp3` is the established Seven Seconds finishing bell. It is preloaded and unlocked by the initial Start tap for mobile browsers. It plays when an answer is selected and does not delay progression. The sound preference is remembered in LocalStorage where available. If playback is blocked, the game continues normally.
+`assets/ding.mp3` is the established correct-answer bell. It is preloaded and unlocked by the initial Start tap for mobile browsers. It plays only for a correct answer and does not delay progression. The sound preference is remembered in LocalStorage where available. If playback is blocked, the game continues normally.
 
 The GO file is intentionally absent and no GO playback code exists.
 
@@ -85,7 +85,7 @@ node scripts/test-engine.mjs
 node --check js/app.js
 ```
 
-Before publishing, test the full challenge at 320, 375, 390, 430 and 768 pixels wide, plus desktop. Confirm all answers fit, the timer is compact, Aggits and the Seven Seconds logo remain visible, replay and sharing work, and the console has no errors.
+Before publishing, test the full challenge at 320, 375, 390, 430 and 768 pixels wide, plus desktop. Confirm all answers fit, the timer remains prominent, Aggits appears once and intact, replay and sharing work, and the console has no errors.
 
 ## GitHub Pages deployment
 
