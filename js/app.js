@@ -1,10 +1,10 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const els={app:$('app'),home:$('homeScreen'),quiz:$('quizScreen'),result:$('resultScreen'),error:$('errorScreen'),errorMessage:$('errorMessage'),start:$('startButton'),progress:$('progressText'),category:$('categoryText'),timer:$('timerNumber'),timerRing:$('timerRing'),question:$('questionText'),answers:$('answerList'),feedback:$('feedback'),feedbackTitle:$('feedbackTitle'),feedbackFact:$('feedbackFact'),score:$('scoreText'),classification:$('classificationText'),resultMessage:$('resultMessage'),correct:$('correctStat'),incorrect:$('incorrectStat'),unanswered:$('unansweredStat'),average:$('averageStat'),discoverTitle:$('discoverTitle'),platformLinks:$('platformLinks'),replay:$('replayButton'),share:$('shareButton'),copy:$('copyButton'),shareStatus:$('shareStatus'),homeBandName:$('homeBandName'),edition:$('editionName'),quizTitle:$('quizTitle')};
-const VERSION='20260713-2';
+const VERSION='20260713-4';
 let config,questionBank=[],freshQuestionBank=null,questions=[],index=0,answers=[],locked=false,timerInterval=null,timerDeadline=0,advanceTimeout=null,muted=readMutePreference();
 let ding=null;
-const analytics={track(event,data={}){window.dispatchEvent(new CustomEvent('seven-seconds-analytics',{detail:{event,...data}}))}};
+const analytics={track(event,data={}){window.dispatchEvent(new CustomEvent('fan-challenge-analytics',{detail:{event,...data}}))}};
 
 init();
 async function init(){try{config=await fetchJson(`config/band.json?v=${VERSION}`);questionBank=await fetchJson(`${config.questionFile}?v=${VERSION}`);validateRuntimeContent();freshQuestionBank=new SevenSecondsBandEngine.FreshQuestionBank(questionBank,config.questionMix);applyConfig();createAudio();syncMuteControls();els.start.disabled=false}catch(error){console.error(error);showError('The challenge content could not be loaded. Please refresh and try again.')}}
@@ -26,12 +26,12 @@ function showScreen(screen){[els.home,els.quiz,els.result,els.error].forEach(ite
 function showError(message){clearTimers();els.errorMessage.textContent=message;showScreen(els.error)}
 function clearTimers(){if(timerInterval){clearInterval(timerInterval);timerInterval=null}if(advanceTimeout){clearTimeout(advanceTimeout);advanceTimeout=null}}
 function buildPlatformLinks(){const definitions=[['spotify','Open Spotify','spotify'],['bandcamp','Visit Bandcamp','bandcamp'],['youtube','Watch YouTube','youtube'],['instagram','Open Instagram','instagram'],['website','Visit Website','website'],['tickets','Buy Tickets','tickets'],['merchandise','Buy Merch','merchandise'],['mailingList','Join Mailing List','mailing-list']];els.platformLinks.innerHTML='';definitions.forEach(([key,label,className])=>{const url=config.links[key];if(!url)return;const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.className=`platform-link ${className}`;link.textContent=label;link.setAttribute('aria-label',`${label} for ${config.bandName} (opens in a new tab)`);link.addEventListener('click',()=>analytics.track('platform_clicked',{platform:key,band:config.bandName}));els.platformLinks.append(link)})}
-function resultShareText(){return `I scored ${els.result.dataset.score}/${questions.length} in the Seven Seconds ${config.bandName} Challenge and earned ${els.result.dataset.classification} status. Can you beat me?`}
+function resultShareText(){return `I scored ${els.result.dataset.score}/${questions.length} in the ${config.bandName} Fan Challenge and earned ${els.result.dataset.classification} status. Can you beat me?`}
 async function shareResult(){const payload={title:`${config.brandName} – ${config.editionTitle}`,text:resultShareText(),url:location.href};if(navigator.share){try{await navigator.share(payload);analytics.track('result_shared');return}catch(error){if(error.name==='AbortError')return}}await copyText(`${payload.text}\n${payload.url}`,'Challenge copied to your clipboard.')}
 async function copyQuizLink(){await copyText(location.href,'Quiz link copied.')}
 async function copyText(text,success){try{await navigator.clipboard.writeText(text);els.shareStatus.textContent=success}catch(error){els.shareStatus.textContent='Copy was blocked. Please copy the address from your browser.'}}
-function readMutePreference(){try{return localStorage.getItem('sevenSecondsMuted')==='true'}catch{return false}}
-function setMuted(value){muted=value;try{localStorage.setItem('sevenSecondsMuted',String(value))}catch{}syncMuteControls();analytics.track('sound_changed',{muted})}
+function readMutePreference(){try{return localStorage.getItem('fanChallengeMuted')==='true'}catch{return false}}
+function setMuted(value){muted=value;try{localStorage.setItem('fanChallengeMuted',String(value))}catch{}syncMuteControls();analytics.track('sound_changed',{muted})}
 function syncMuteControls(){document.querySelectorAll('.mute-button').forEach(button=>{button.setAttribute('aria-pressed',String(muted));button.setAttribute('aria-label',muted?'Turn sound on':'Mute sound');button.textContent=button.id==='muteButtonHome'?`Sound: ${muted?'Off':'On'}`:(muted?'×':'♪')})}
 function toggleMute(){setMuted(!muted)}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&timerInterval&&!locked)updateTimer()});

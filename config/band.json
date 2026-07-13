@@ -1,9 +1,9 @@
 {
-  "brandName": "Seven Seconds",
+  "brandName": "Fan Challenge",
   "bandName": "Immigrant Union",
-  "editionTitle": "Immigrant Union Edition",
+  "editionTitle": "Immigrant Union",
   "quizTitle": "How Well Do You Know Immigrant Union?",
-  "description": "Think you know the band? Prove it in Seven Seconds.",
+  "description": "The premium Immigrant Union fan challenge.",
   "numberOfQuestions": 10,
   "questionMix": { "easy": 4, "medium": 4, "hard": 2 },
   "secondsPerQuestion": 7,
@@ -12,7 +12,7 @@
   "dingSound": "assets/ding.mp3",
   "brandArtwork": "assets/seven-seconds-aggits-master.png",
   "backgroundArtwork": "assets/immigrant-union-original-background.png",
-  "theme": { "accent": "#d99b48", "accentSecondary": "#f1c777" },
+  "theme": { "accent": "#2f80ff", "accentSecondary": "#8dbdff" },
   "links": {
     "spotify": "https://open.spotify.com/artist/2IlmAr3B2x6SpUXNN3XdCL",
     "bandcamp": "https://immigrantunionmusic.bandcamp.com/",
