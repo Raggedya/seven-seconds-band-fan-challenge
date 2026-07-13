@@ -7,8 +7,10 @@
   <meta name="description" content="The official Immigrant Union fan challenge.">
   <title>Immigrant Union Fan Challenge</title>
   <link rel="preload" href="assets/ding.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="assets/beep.wav" as="audio" type="audio/wav">
   <link rel="preload" href="assets/seven-seconds-aggits-master.png" as="image">
-  <link rel="stylesheet" href="styles.css?v=20260713-4">
+  <link rel="preload" href="assets/aggits-original-cutout-v4.png" as="image">
+  <link rel="stylesheet" href="styles.css?v=20260713-6">
 </head>
 <body>
   <main id="app" class="app-shell home-active">
@@ -22,7 +24,6 @@
       <div class="home-branding" aria-label="Immigrant Union Fan Challenge">
         <p class="home-edition">The Official Fan Challenge</p>
         <h1 id="homeBandName" class="home-band-name">Immigrant Union</h1>
-        <p class="home-invitation">Know the music. Own the moment.</p>
         <div class="home-stage" aria-hidden="true"></div>
         <div class="home-aggits" role="img" aria-label="Aggits"></div>
       </div>
@@ -34,7 +35,7 @@
 
     <section id="quizScreen" class="screen quiz-screen" hidden>
       <div class="quiz-topline">
-        <p id="progressText" class="progress" aria-live="polite">Question 1 of 10</p>
+        <p id="progressText" class="progress" aria-live="polite">Question 1 of 12</p>
         <button id="muteButtonQuiz" class="icon-button mute-button" type="button" aria-label="Mute sound" aria-pressed="false">♪</button>
       </div>
       <div class="panel question-panel">
@@ -47,16 +48,21 @@
         <h2 id="questionText" tabindex="-1">Loading question…</h2>
         <div id="answerList" class="answer-list" role="group" aria-label="Answer choices"></div>
         <div id="feedback" class="feedback" aria-live="assertive" hidden>
-          <strong id="feedbackTitle"></strong>
+          <div class="feedback-heading">
+            <span id="deepCutBadge" class="deep-cut-badge">Deep Cut</span>
+            <strong id="feedbackTitle"></strong>
+          </div>
           <span id="feedbackFact"></span>
+          <a id="feedbackSource" class="feedback-source" target="_blank" rel="noopener noreferrer"></a>
         </div>
       </div>
     </section>
 
     <section id="resultScreen" class="screen result-screen" hidden>
       <div class="panel result-panel">
+        <div class="result-artwork" role="img" aria-label="Immigrant Union artwork"></div>
         <p class="eyebrow">YOUR RESULT</p>
-        <h1 id="scoreText" class="score">0 / 10</h1>
+        <h1 id="scoreText" class="score">0 / 12</h1>
         <h2 id="classificationText" class="classification">JUST DISCOVERING THE BAND</h2>
         <p id="resultMessage" class="result-message"></p>
         <dl class="stats">
