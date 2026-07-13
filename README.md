@@ -1,6 +1,6 @@
 # Immigrant Union Deep Cuts Fan Challenge
 
-A premium, mobile-first fan quiz built around twelve researched Immigrant Union stories. Each game uses the complete 12-question library, a seven-second countdown, concise answer explanations, source links, fan rankings and official music-discovery links.
+A premium, mobile-first fan quiz built around twelve researched Immigrant Union stories. Each game uses the complete 12-question library, a fifteen-second countdown, concise answer explanations, source links, fan rankings and official music-discovery links.
 
 ## Play locally
 
@@ -15,10 +15,10 @@ No installation or build step is required.
 ## How Deep Cuts works
 
 1. Selecting **Start the Challenge** unlocks mobile audio and immediately opens Question 1.
-2. Each question presents four choices and an accurate timestamp-based seven-second timer.
-3. Seconds 7–4 are silent. A clean 120 ms beep plays once at 3, 2 and 1. The existing ding plays only if the timer reaches zero.
+2. Each question presents four choices and an accurate timestamp-based fifteen-second timer.
+3. Seconds 15–4 are silent. A clean 120 ms beep plays once at 3, 2 and 1. The existing ding plays only if the timer reaches zero.
 4. An early answer stops the timer and all pending sounds immediately; it never plays the ding.
-5. The correct answer, **Deep Cut** badge, 15–40-word explanation and linked source remain visible for four seconds.
+5. The correct answer, **Deep Cut** badge, 15–40-word explanation and linked source remain visible for ten seconds.
 6. The next question then starts automatically. After Question 12, the player sees their score, ranking, statistics, discovery links, replay and sharing controls.
 
 ## Question specification
