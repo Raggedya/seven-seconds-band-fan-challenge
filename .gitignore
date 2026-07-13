@@ -1,4 +1,8 @@
 .DS_Store
 Thumbs.db
+.tools/
+assets/aggits-original-cutout.png
+assets/aggits-original-cutout-v2.png
+assets/aggits-original-cutout-v3.png
+assets/aggits-cutout-blue-preview.png
 node_modules/
-

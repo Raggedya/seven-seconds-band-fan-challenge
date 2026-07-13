@@ -1,6 +1,6 @@
-# Immigrant Union Fan Challenge
+# Immigrant Union Deep Cuts Fan Challenge
 
-A mobile-first, premium promotional quiz for bands and musicians. This launch edition draws each 10-question game from a **50-question Immigrant Union bank**, uses a fast timed format, moves automatically through the challenge, then presents a score, fan classification and music-discovery links.
+A premium, mobile-first fan quiz built around twelve researched Immigrant Union stories. Each game uses the complete 12-question library, a seven-second countdown, concise answer explanations, source links, fan rankings and official music-discovery links.
 
 ## Play locally
 
@@ -12,68 +12,64 @@ The game loads JSON files, so open it through a small local web server rather th
 
 No installation or build step is required.
 
-## How the game works
+## How Deep Cuts works
 
-1. The opening screen explains the 10-question challenge.
-2. Selecting **Start the Challenge** unlocks mobile audio and immediately opens Question 1.
-3. Each question displays four answers and an accurate timestamp-based seven-second timer.
-4. The first answer tap locks all options. A correct answer plays the existing ding; incorrect answers and timeouts remain silent.
-5. The answer and explanation remain visible for four seconds, then the next question appears and its countdown starts immediately.
-6. A timeout is recorded as unanswered and incorrect.
-7. After Question 10, the player sees their score, classification, statistics, discovery links, replay and sharing controls.
+1. Selecting **Start the Challenge** unlocks mobile audio and immediately opens Question 1.
+2. Each question presents four choices and an accurate timestamp-based seven-second timer.
+3. Seconds 7–4 are silent. A clean 120 ms beep plays once at 3, 2 and 1. The existing ding plays only if the timer reaches zero.
+4. An early answer stops the timer and all pending sounds immediately; it never plays the ding.
+5. The correct answer, **Deep Cut** badge, 15–40-word explanation and linked source remain visible for four seconds.
+6. The next question then starts automatically. After Question 12, the player sees their score, ranking, statistics, discovery links, replay and sharing controls.
 
-There is deliberately **no GO sound** and no Next Question button.
+## Question specification
+
+Questions live in `data/questions.json`. Each active item contains:
+
+- unique `id`
+- `category` and `difficulty`
+- question and exactly four unique options
+- one `correctAnswer` that exactly matches an option
+- a 15–40-word `explanation`
+- `sourceName` and HTTPS `sourceURL`
+- `active: true`
+
+The validator enforces exactly twelve questions: 3 easy, 6 medium and 3 hard. It also enforces 3 Album Deep Cuts, 3 Song / Recording Deep Cuts, 2 Band Member, 2 Touring / Live and 2 Behind the Scenes questions. Answer order and question order are shuffled on every play.
+
+## Rankings
+
+- 0–3: Curious Listener
+- 4–6: Proper Fan
+- 7–9: Deep Cut Disciple
+- 10–11: Band Historian
+- 12: How Did You Know That?!
 
 ## Reuse this for another band
 
-Most new editions require changes in only four places:
+Most new editions require changes in four places:
 
-1. `config/band.json` — band name, edition text, timer, colours, classifications and external links.
-2. `data/questions.json` — the question library.
-3. `assets/immigrant-union-original-background.png` — replace with the next edition’s original or properly licensed background and update the path in the configuration.
-4. The edition-specific title in the page description if desired.
+1. `config/band.json` — band name, edition text, colours, rankings, audio and official links.
+2. `data/questions.json` — the researched question library and source references.
+3. Edition artwork referenced by the configuration.
+4. The page title and description in `index.html`.
 
-The core game logic in `js/engine.js` and `js/app.js` should not need rewriting.
-
-## Band configuration
-
-Edit `config/band.json` to change:
-
-- `bandName`, `editionTitle` and `quizTitle`
-- `numberOfQuestions` and `secondsPerQuestion`
-- Spotify, Bandcamp, YouTube and Instagram URLs
-- optional website, tickets, merchandise and mailing-list URLs
-- accent colours
-- score classifications and encouraging result messages
-
-Blank optional URLs are hidden automatically. Never publish guessed links.
-
-## Questions
-
-Questions live in `data/questions.json`. Each active item needs:
-
-- a unique ID and question
-- exactly four unique options
-- one `correctAnswer` that exactly matches an option
-- difficulty: `easy`, `medium` or `hard`
-- category, short explanation and source note
-- `active: true`
-
-The launch validator expects exactly 50 active questions: 20 easy, 20 medium and 10 hard. Every game draws four easy, four medium and two hard questions. Selecting **Take the Quiz Again** produces a fresh set, with no repeats until all 50 questions have appeared across five games. The bank then reshuffles for a new cycle. Answer order is also shuffled on every game.
+The reusable engine in `js/engine.js` should not require rewriting. Blank optional platform URLs are hidden automatically; never publish guessed links.
 
 ## Branding and artwork
 
 - `assets/seven-seconds-aggits-master.png` is the approved original Aggits artwork. **Do not redraw, regenerate or replace Aggits.**
-- The interface repositions regions of that exact master image responsively; it does not create a new character.
-- The opening screen shows the band name once beside a single, intact Aggits character. Quiz and result screens use the compact text-only band lock-up.
-- `assets/immigrant-union-original-background.png` is new, original psychedelic-country artwork created for this repository. It is album-inspired but does not copy copyrighted Immigrant Union cover art.
-- Immigrant Union’s published Bandcamp album artwork is marked all rights reserved, so no album cover was copied into this repository.
+- `assets/aggits-original-cutout-v4.png` uses the exact original Aggits colour pixels with only the surrounding background made transparent.
+- The opening screen shows the band name once and a single centred Aggits against the approved calm, premium blue-to-black vignette.
+- The cover contains no green background, no duplicate character and no scenery behind Aggits.
+- `assets/immigrant-union-original-background.png` is original edition artwork used only as a restrained supporting texture outside the front cover.
 
 ## Sound
 
-`assets/ding.mp3` is the established correct-answer bell. It is preloaded and unlocked by the initial Start tap for mobile browsers. It plays only for a correct answer and does not delay progression. The sound preference is remembered in LocalStorage where available. If playback is blocked, the game continues normally.
-
-The GO file is intentionally absent and no GO playback code exists.
+- `assets/beep.wav` is a 120 ms, 1320 Hz mono countdown cue.
+- `assets/ding.mp3` is the established timeout bell and has not been replaced.
+- Both sounds are preloaded and unlocked from the initial Start tap for mobile browsers.
+- Playing either cue stops and resets the other, preventing overlap.
+- The sound preference is remembered in LocalStorage where available.
+- Hiding the browser tab safely stops audio and resets the current question timer before play resumes.
 
 ## Testing
 
@@ -85,18 +81,16 @@ node scripts/test-engine.mjs
 node --check js/app.js
 ```
 
-Before publishing, test the full challenge at 320, 375, 390, 430 and 768 pixels wide, plus desktop. Confirm all answers fit, the timer remains prominent, Aggits appears once and intact, replay and sharing work, and the console has no errors.
+Before publishing, test the challenge at 320, 375, 390, 430 and 768 pixels wide, plus desktop. Confirm all four answers fit, the timer remains clear, Aggits appears once and intact, the 3–2–1 beep sequence and zero ding are correct, early answers are silent, replay and sharing work, source links open safely, and the console has no errors.
 
 ## GitHub Pages deployment
 
-1. Create or push this folder to its own GitHub repository.
-2. In the repository, open **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select `main` and `/ (root)`, then save.
-5. GitHub will publish the site at `https://YOUR-USERNAME.github.io/REPOSITORY-NAME/`.
+1. Push the review branch and open a pull request into `main`.
+2. Merge only after approval.
+3. In **Settings → Pages**, select deployment from `main` and `/ (root)` if Pages is not already configured.
 
 All asset and data paths are relative so they work from a GitHub Pages repository subdirectory.
 
 ## Accessibility and resilience
 
-The interface uses semantic buttons and headings, visible focus states, screen-reader announcements, text indicators in addition to colour, reduced-motion support and touch targets near or above 44 pixels. Missing optional links are hidden. Missing content displays a plain-language error rather than breaking the page.
+The interface uses semantic controls, visible focus states, screen-reader announcements, text indicators in addition to colour, reduced-motion support and touch-friendly targets. Missing optional links are hidden. Missing or invalid content displays a plain-language error rather than breaking the page.

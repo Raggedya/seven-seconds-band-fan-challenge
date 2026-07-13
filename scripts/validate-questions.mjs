@@ -1,5 +1,57 @@
 import fs from 'node:fs/promises';
-const questions=JSON.parse(await fs.readFile('data/questions.json','utf8'));const active=questions.filter(q=>q.active);const errors=[];const required=['id','question','options','correctAnswer','difficulty','category','explanation','source','active'];
-if(active.length!==50)errors.push(`Expected exactly 50 active questions; found ${active.length}.`);const ids=new Set(),texts=new Set();const counts={easy:0,medium:0,hard:0};
-for(const q of active){for(const field of required)if(q[field]===undefined||q[field]==='')errors.push(`${q.id||'unknown'} missing ${field}.`);if(ids.has(q.id))errors.push(`Duplicate ID: ${q.id}`);ids.add(q.id);const normalized=q.question.toLowerCase().replace(/\W/g,'');if(texts.has(normalized))errors.push(`Duplicate question: ${q.question}`);texts.add(normalized);if(!Array.isArray(q.options)||q.options.length!==4)errors.push(`${q.id} must have four options.`);else{if(new Set(q.options.map(o=>o.toLowerCase())).size!==4)errors.push(`${q.id} has duplicate options.`);if(q.options.some(o=>!String(o).trim()))errors.push(`${q.id} has an empty option.`);if(!q.options.includes(q.correctAnswer))errors.push(`${q.id} correct answer is not an option.`)}if(!['easy','medium','hard'].includes(q.difficulty))errors.push(`${q.id} has invalid difficulty.`);else counts[q.difficulty]+=1;if(q.active!==true)errors.push(`${q.id} active must be true.`)}
-if(counts.easy!==20||counts.medium!==20||counts.hard!==10)errors.push(`Bank mix must be 20 easy, 20 medium, 10 hard; found ${JSON.stringify(counts)}.`);if(errors.length){console.error(errors.join('\n'));process.exit(1)}console.log(`Question validation passed: ${active.length} active questions (${counts.easy} easy, ${counts.medium} medium, ${counts.hard} hard).`);
+
+const questions=JSON.parse(await fs.readFile('data/questions.json','utf8'));
+const active=questions.filter(question=>question.active);
+const errors=[];
+const required=['id','question','options','correctAnswer','difficulty','category','explanation','sourceName','sourceURL','active'];
+const expectedDifficulty={easy:3,medium:6,hard:3};
+const expectedCategories={
+  'Album Deep Cuts':3,
+  'Song / Recording Deep Cuts':3,
+  'Band Member':2,
+  'Touring / Live':2,
+  'Behind the Scenes':2
+};
+const difficultyCounts={easy:0,medium:0,hard:0};
+const categoryCounts=Object.fromEntries(Object.keys(expectedCategories).map(category=>[category,0]));
+const ids=new Set();
+const texts=new Set();
+
+if(active.length!==12)errors.push(`Expected exactly 12 active questions; found ${active.length}.`);
+
+for(const question of active){
+  for(const field of required){
+    if(question[field]===undefined||question[field]==='')errors.push(`${question.id||'unknown'} missing ${field}.`);
+  }
+  if(ids.has(question.id))errors.push(`Duplicate ID: ${question.id}`);
+  ids.add(question.id);
+  const normalized=question.question.toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(texts.has(normalized))errors.push(`Duplicate question: ${question.question}`);
+  texts.add(normalized);
+  if(!Array.isArray(question.options)||question.options.length!==4){
+    errors.push(`${question.id} must have four options.`);
+  }else{
+    const normalizedOptions=question.options.map(option=>String(option).trim().toLowerCase());
+    if(new Set(normalizedOptions).size!==4)errors.push(`${question.id} has duplicate options.`);
+    if(question.options.some(option=>!String(option).trim()))errors.push(`${question.id} has an empty option.`);
+    if(!question.options.includes(question.correctAnswer))errors.push(`${question.id} correct answer is not an option.`);
+  }
+  if(!(question.difficulty in expectedDifficulty))errors.push(`${question.id} has invalid difficulty.`);
+  else difficultyCounts[question.difficulty]+=1;
+  if(!(question.category in expectedCategories))errors.push(`${question.id} has invalid category: ${question.category}.`);
+  else categoryCounts[question.category]+=1;
+  const explanationWords=String(question.explanation).trim().split(/\s+/).filter(Boolean).length;
+  if(explanationWords<15||explanationWords>40)errors.push(`${question.id} explanation must contain 15–40 words; found ${explanationWords}.`);
+  if(!/^https:\/\//.test(question.sourceURL))errors.push(`${question.id} sourceURL must be an HTTPS URL.`);
+  if(question.active!==true)errors.push(`${question.id} active must be true.`);
+}
+
+for(const[difficulty,expected]of Object.entries(expectedDifficulty)){
+  if(difficultyCounts[difficulty]!==expected)errors.push(`Expected ${expected} ${difficulty} questions; found ${difficultyCounts[difficulty]}.`);
+}
+for(const[category,expected]of Object.entries(expectedCategories)){
+  if(categoryCounts[category]!==expected)errors.push(`Expected ${expected} ${category}; found ${categoryCounts[category]}.`);
+}
+
+if(errors.length){console.error(errors.join('\n'));process.exit(1)}
+console.log(`Deep Cuts validation passed: ${active.length} questions; difficulty ${JSON.stringify(difficultyCounts)}; categories ${JSON.stringify(categoryCounts)}.`);
