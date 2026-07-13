@@ -8,7 +8,7 @@
   <title>Seven Seconds – Immigrant Union Edition</title>
   <link rel="preload" href="assets/ding.mp3" as="audio" type="audio/mpeg">
   <link rel="preload" href="assets/seven-seconds-aggits-master.png" as="image">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260713-3">
 </head>
 <body>
   <main id="app" class="app-shell home-active">
@@ -20,20 +20,12 @@
     <section id="homeScreen" class="screen home-screen">
       <div class="home-branding" aria-label="Seven Seconds Immigrant Union Fan Challenge">
         <div class="home-logo" role="img" aria-label="Seven Seconds"></div>
-        <div class="home-band-lockup">
-          <h1 id="homeBandName" class="home-band-name">Immigrant Union</h1>
-          <div class="home-aggits" role="img" aria-label="Aggits, the Seven Seconds character"></div>
-        </div>
+        <p class="home-edition">Fan Challenge</p>
+        <h1 id="homeBandName" class="home-band-name">Immigrant Union</h1>
+        <div class="home-stage" aria-hidden="true"></div>
+        <div class="home-aggits" role="img" aria-label="Aggits, the Seven Seconds character"></div>
       </div>
       <div class="panel home-panel">
-        <p class="eyebrow" id="editionName">THE FAN CHALLENGE</p>
-        <h2 id="quizTitle">How Well Do You Know the Band?</h2>
-        <p class="intro">Think you know the band? Prove it in Seven Seconds.</p>
-        <ul class="challenge-facts" aria-label="Challenge rules">
-          <li><strong>10</strong><span>Questions</span></li>
-          <li><strong>7</strong><span>Seconds Each</span></li>
-          <li><strong>0</strong><span>Googling</span></li>
-        </ul>
         <button id="startButton" class="button primary" type="button" disabled>Start the Challenge</button>
         <button id="muteButtonHome" class="button utility mute-button" type="button" aria-pressed="false">Sound: On</button>
       </div>
