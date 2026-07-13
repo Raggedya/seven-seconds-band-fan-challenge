@@ -7,6 +7,8 @@ await import(pathToFileURL(path.resolve('js/engine.js')));
 const E=globalThis.SevenSecondsBandEngine;
 const questions=JSON.parse(await fs.readFile('data/questions.json','utf8'));
 const config=JSON.parse(await fs.readFile('config/band.json','utf8'));
+assert.equal(config.secondsPerQuestion,15,'Deep Cuts questions must use a 15-second countdown.');
+assert.equal(config.feedbackMilliseconds,10000,'Answer feedback must remain visible for 10 seconds.');
 
 const bank=new E.FreshQuestionBank(questions,config.questionMix,()=>.42);
 const firstRound=bank.nextRound();
