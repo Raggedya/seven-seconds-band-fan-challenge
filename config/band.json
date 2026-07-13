@@ -5,8 +5,9 @@
   "quizTitle": "How Well Do You Know Immigrant Union?",
   "description": "Think you know the band? Prove it in Seven Seconds.",
   "numberOfQuestions": 10,
+  "questionMix": { "easy": 4, "medium": 4, "hard": 2 },
   "secondsPerQuestion": 7,
-  "feedbackMilliseconds": 1000,
+  "feedbackMilliseconds": 4000,
   "questionFile": "data/questions.json",
   "dingSound": "assets/ding.mp3",
   "brandArtwork": "assets/seven-seconds-aggits-master.png",
@@ -31,4 +32,3 @@
     { "min": 10, "max": 10, "label": "Band Historian", "message": "Perfect score. You know this band inside out." }
   ]
 }
-
